@@ -1,0 +1,13 @@
+[General]
+targets=target1,target2
+files=/etc/default/grub,/etc/modprobe.d/blacklist.conf
+args=g #default command line arguments, values under specific target overwrites it unless start with '+' 
+strip_spaces=False #default value
+postexec=efibootmgr -n 0000 #command to run right before reboot, applies to all targets, script ignores exit codes
+initrd_command=dracut --regenerate-all -f" 
+grub_command=grub2-mkconfig -o /boot/grub2/grub.cfg
+[target1]
+preexec=echo 1 #command to run before changing configs, applies only to one target 
+
+
+ 
