@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import argparse
 import configparser
-import os
+import subprocess
 
 
 parser = argparse.ArgumentParser()
@@ -66,7 +66,7 @@ for c in _args:
     elif c == "y": args.y=True
     
 
-if preexec is not None: os.system(preexec)
+if preexec is not None: subprocess.run(preexec.split(" "),check=True)
 for file in files:
     with open(file, "r+") as f:
         lines = f.readlines()
@@ -80,11 +80,11 @@ for file in files:
         f.seek(0)
         f.write(lines)
 
-if args.initrd:os.system(initrd_command)
-if args.grub: os.system(grub_command)
-os.system("sync")
+if args.initrd:subprocess.run(initrd_command.split(" "),check=True)
+if args.grub: subprocess.run(grub_command.split(" "),check=True)
+subprocess.run("sync")
 
 if not args.y:
     input("waiting for enter to reboot")
-if postexec is not None: os.system(postexec)
-os.system("reboot")
+if postexec is not None: subprocess.run(postexec.split(" "),check=True)
+subprocess.run("reboot",check=True)
