@@ -35,6 +35,8 @@ for v in values:
         postexec=v[1]
 
 _args=None
+targets=targets+config.sections()
+targets.remove("General")
 if args.target not in targets:
     c=0
     _t=""
@@ -45,7 +47,10 @@ if args.target not in targets:
     if c == 0: raise Exception(f"{target} doesn't exist")
     elif c>1: raise Exception(f"multiple targets match {target}")
     else: args.target=_t
-
+switch=False
+s_targets=[]
+current=""
+_args=default_args
 if args.target in config.sections():
     values=list(config.items(args.target))
     for v in values:
@@ -60,8 +65,20 @@ if args.target in config.sections():
             preexec=v[1]
         elif v[0] == "postexec":
             postexec=v[1]
-else:
-    if default_args is not None: _args=default_args
+        elif v[0] == "targets":
+            switch=True
+            s_targets=v[1].split(",")
+            current=config.get(args.target,"current")
+            print(s_targets)
+            print(current)
+            s_targets.remove(current)
+            config[args.target]["current"]=s_targets[0]
+            args.target=s_targets[0]
+            
+
+
+with open("/etc/reboot.py/config.ini","w") as f:
+    config.write(f)
 
 
 for c in _args:

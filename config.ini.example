@@ -8,6 +8,9 @@ initrd_command=dracut --regenerate-all -f"
 grub_command=grub2-mkconfig -o /boot/grub2/grub.cfg
 [target1]
 preexec=echo 1 #command to run before changing configs, applies only to one target 
+[s] #allow to switch betwwen target1 and target by running reboot.py
+targets=target1,target2
+current=target1
 
 
  
