@@ -56,6 +56,10 @@ if args.target in config.sections():
                 _args=v[1]
         elif v[0] == "strip_spaces":
             strip_spaces=bool(v[1])
+        elif v[0] == "preexec":
+            preexec=v[1]
+        elif v[0] == "postexec":
+            postexec=v[1]
 else:
     if default_args is not None: _args=default_args
 
